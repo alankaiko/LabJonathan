@@ -6,10 +6,12 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -17,13 +19,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
 @Table
-@NamedQueries({ 
-	@NamedQuery(name="Paciente.listar", query="SELECT paciente FROM Paciente paciente order by codigo"),
-	@NamedQuery(name="Paciente.buscarPorId", query="SELECT paciente FROM Paciente paciente WHERE paciente.id= :codigo"),
-	@NamedQuery(name = "Paciente.VerificaCpf", query = "SELECT paciente.cpf FROM Paciente paciente WHERE paciente.cpf= :cpf"),
-	@NamedQuery(name="Paciente.buscarPeloNome", query="SELECT paciente FROM Paciente paciente WHERE paciente.nome LIKE :nome")
+@Entity
+@NamedQueries({
+	@NamedQuery(name = "Paciente.listar", query = "SELECT paciente FROM Paciente paciente order by codigo"),
+	@NamedQuery(name = "Paciente.verificaQtd", query = "SELECT COUNT(*) FROM Paciente paciente"),
+	@NamedQuery(name = "Paciente.buscarPorId", query = "SELECT paciente FROM Paciente paciente WHERE paciente.codigo= :codigo"),
+	@NamedQuery(name = "Paciente.buscarPeloNome", query = "SELECT paciente FROM Paciente paciente WHERE paciente.nome LIKE :nome")
 })
 public class Paciente implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,12 +34,13 @@ public class Paciente implements Serializable {
 	private String nome;
 	private String cpf;
 	private String rg;
-	private Date datanasc;
-	private Date datacad;
+	private Date dataNasc;
+	private Date dataCad;
 	private Contato contato;
 	private Endereco endereco;
 	private String observacao;
-	
+	private Convenio convenio;
+
 	public Paciente() {
 		nome = new String();
 		cpf = new String();
@@ -45,20 +48,20 @@ public class Paciente implements Serializable {
 		contato = new Contato();
 		endereco = new Endereco();
 		observacao = new String();
+		convenio = new Convenio();
 	}
-	
-	
+
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
-	
+
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
-	@Column(nullable=false, unique=true)
+	@Column(nullable = false, unique = true)
 	public String getNome() {
 		return nome;
 	}
@@ -67,7 +70,7 @@ public class Paciente implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(nullable=false, unique=true, length=15)
+	@Column(nullable = false, unique = true, length = 15)
 	public String getCpf() {
 		return cpf;
 	}
@@ -86,20 +89,30 @@ public class Paciente implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDatanasc() {
-		return datanasc;
+	public Date getDataNasc() {
+		return dataNasc;
 	}
 
-	public void setDatanasc(Date datanasc) {
-		this.datanasc = datanasc;
+	public void setDataNasc(Date dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 
-	public Date getDatacad() {
-		return datacad;
+	public Date getDataCad() {
+		return dataCad;
 	}
-	
-	public void setDatacad(Date datacad) {
-		this.datacad = datacad;
+
+	public void setDataCad(Date dataCad) {
+		this.dataCad = dataCad;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "tbl_convenio_id", referencedColumnName = "codigo")
+	public Convenio getConvenio() {
+		return convenio;
+	}
+
+	public void setConvenio(Convenio convenio) {
+		this.convenio = convenio;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -107,7 +120,7 @@ public class Paciente implements Serializable {
 	public Contato getContato() {
 		return contato;
 	}
-	
+
 	public void setContato(Contato contato) {
 		this.contato = contato;
 	}
@@ -117,12 +130,12 @@ public class Paciente implements Serializable {
 	public Endereco getEndereco() {
 		return endereco;
 	}
-	
+
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 
-	@Column(columnDefinition="text")
+	@Column(columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
 	}
@@ -138,7 +151,6 @@ public class Paciente implements Serializable {
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -157,13 +169,12 @@ public class Paciente implements Serializable {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Paciente [codigo=" + codigo + ", nome=" + nome + ", cpf=" + cpf
-				+ ", rg=" + rg + ", datanasc=" + datanasc + ", datacad="
-				+ datacad + ", contato=" + contato + ", endereco=" + endereco
-				+ ", observacao=" + observacao + "]";
+				+ ", rg=" + rg + ", dataNasc=" + dataNasc + ", dataCad="
+				+ dataCad + ", contato=" + contato + ", endereco=" + endereco
+				+ ", observacao=" + observacao + ", convenio=" + convenio + "]";
 	}
-	
+
 }

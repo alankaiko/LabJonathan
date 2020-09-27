@@ -2,41 +2,41 @@ package br.com.laboratorio.service;
 
 import java.util.List;
 
+import br.com.laboratorio.modelo.Convenio;
 import br.com.laboratorio.modelo.Paciente;
-import br.com.laboratorio.repositoy.PacienteRepository;
+import br.com.laboratorio.repository.PacienteRepository;
 
 public class PacienteService {
-	private PacienteRepository dao;
+	private PacienteRepository repositorio = new PacienteRepository();
+
 	
-	public PacienteService() {
-		this.dao = new PacienteRepository();
+	public void Salvar(Paciente paciente){
+		this.repositorio.Guardar(paciente);
 	}
 	
-	public List<Paciente> Listar() {
-		return this.dao.ListarPacientes();
+	public void Remover(Paciente paciente){
+		this.repositorio.Remover(paciente);
 	}
 	
-	public void Criar (Paciente paciente) {
-		this.dao.Guardar(paciente);
+	public List<Paciente> ListandoPacientes(){
+		return repositorio.ListarPacientes();
 	}
 	
-	public void Deletar (Paciente paciente) {
-		this.dao.Remover(paciente);
+	public Long VerificaQtd(){
+		return this.repositorio.VerificaQTDRegistro();
 	}
 	
-	public Paciente BuscandoPeloCodigo(Long codigo) {
-		return this.dao.BuscarPorId(codigo);
+	public Paciente BuscandoId(Long id){
+		return this.repositorio.BuscarPorId(id);
 	}
 	
-	public List<Paciente> ListarPorNomes(String nome) {
-		return this.dao.BuscarPeloNome(nome);
+	public List<Paciente> BuscandoPeloNome(String nome){
+		return this.repositorio.BuscarPeloNome(nome);
 	}
 	
-	public String BuscarPeloCpf(String cpf) {
-		return this.dao.BuscarPorCpf(cpf);
-	}
-	
-	public Paciente BuscarPorNomeUnico(String nome) {
-		return this.dao.BuscarPorNomeUnico(nome);
+	//Acessa o método Service do Objeto Fabricante para retornar uma lista completa de todos os Fabricantes
+	public List<Convenio> ConvenioListaCompleta(){
+		ConvenioService serviceFab = new ConvenioService();
+		return serviceFab.ListandoConvenios();
 	}
 }

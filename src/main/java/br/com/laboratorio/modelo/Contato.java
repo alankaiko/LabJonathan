@@ -1,6 +1,5 @@
 package br.com.laboratorio.modelo;
 
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -21,7 +20,7 @@ public class Contato implements Serializable {
 	private String email;
 	private String telefone;
 	private String celular;
-	
+
 	public Contato() {
 		email = new String();
 		telefone = new String();
@@ -29,17 +28,17 @@ public class Contato implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
-	
+
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
 	@Email
-	@Column(name="email")
+	@Column(name = "email")
 	public String getEmail() {
 		return email;
 	}
@@ -48,7 +47,7 @@ public class Contato implements Serializable {
 		this.email = email;
 	}
 
-	@Column(length=20)
+	@Column(length = 20)
 	public String getTelefone() {
 		return telefone;
 	}
@@ -57,7 +56,7 @@ public class Contato implements Serializable {
 		this.telefone = telefone;
 	}
 
-	@Column(length=20)
+	@Column(length = 20)
 	public String getCelular() {
 		return celular;
 	}
@@ -96,5 +95,4 @@ public class Contato implements Serializable {
 		return "Contato [codigo=" + codigo + ", email=" + email + ", telefone="
 				+ telefone + ", celular=" + celular + "]";
 	}
-	
 }

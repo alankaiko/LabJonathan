@@ -4,25 +4,22 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.GregorianCalendar;
 
+import javax.swing.JSpinner;
 import javax.swing.text.MaskFormatter;
 
-public class ConverteDadosUtil {
-	
-	public static Date ConverteDataAgendamento(Date data){
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		formatter.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+import org.joda.time.DateTime;
 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(data);
-		String timestamp = formatter.format(cal.getTime());
-		return TransformandoEmDate(timestamp);
-	}
+public class ConverteDadosUtil {
+		
+	
+	public static DateTime RetornaData(JSpinner data){
+		DateTime valor = new DateTime(data);
+		return valor;
+	}	
 	
 	//Converte o texto em Integer
 	public static Integer RetornaInt(String valor){
@@ -35,18 +32,6 @@ public class ConverteDadosUtil {
 		return num;		
 	}
 	
-	
-	public static Date TransformandoEmDateService(Date date, String hora){	
-		Date aff = null;
-		String[] horas = hora.split(":");
-		
-		Calendar calen = Calendar.getInstance();
-		calen.setTime(date);
-		calen.set(Calendar.HOUR, Integer.parseInt(horas[0]));
-		calen.set(Calendar.MINUTE, Integer.parseInt(horas[1]));
-		aff = calen.getTime();
-		return aff;
-	}
 	
 	//Converte as datas de String para Date para ser armazenadas Desde que a String nao seja nula
 	public static Date TransformandoEmDate(String data){
@@ -158,48 +143,6 @@ public class ConverteDadosUtil {
 		return mascaraCep;
 	}
 	
-	
-	public static List<String> ListaHoras(){
-		List<String> listaHorarios = new ArrayList<String>();
-		
-		listaHorarios.add("06:00");
-		listaHorarios.add("06:30");
-		listaHorarios.add("07:00");
-		listaHorarios.add("07:30");
-		listaHorarios.add("08:00");
-		listaHorarios.add("08:30");
-		listaHorarios.add("09:00");
-		listaHorarios.add("09:30");
-		listaHorarios.add("10:00");
-		listaHorarios.add("10:30");
-		listaHorarios.add("11:00");
-		listaHorarios.add("11:30");
-		listaHorarios.add("12:00");
-		listaHorarios.add("12:30");
-		listaHorarios.add("13:00");
-		listaHorarios.add("13:30");
-		listaHorarios.add("14:00");
-		listaHorarios.add("14:30");
-		listaHorarios.add("15:00");
-		listaHorarios.add("15:30");
-		listaHorarios.add("16:00");
-		listaHorarios.add("16:30");
-		listaHorarios.add("17:00");
-		listaHorarios.add("17:30");
-		listaHorarios.add("18:00");
-		listaHorarios.add("18:30");
-		listaHorarios.add("19:00");
-		listaHorarios.add("19:30");
-		listaHorarios.add("20:00");
-		listaHorarios.add("20:30");
-		listaHorarios.add("21:00");
-		listaHorarios.add("21:30");
-		listaHorarios.add("22:00");
-		listaHorarios.add("22:30");
-		
-		
-		return listaHorarios;
-	}
 	
 }
 	

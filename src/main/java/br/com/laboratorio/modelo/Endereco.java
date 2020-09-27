@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Endereco implements Serializable{
+public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
@@ -31,14 +31,13 @@ public class Endereco implements Serializable{
 		estado = new String();
 		cep = new String();
 	}
-	
-	
+
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
-	
+
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
@@ -92,12 +91,12 @@ public class Endereco implements Serializable{
 	public String getEstado() {
 		return estado;
 	}
-	
+
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
-	@Column(length=10)
+	@Column(length = 10)
 	public String getCep() {
 		return cep;
 	}
@@ -106,6 +105,37 @@ public class Endereco implements Serializable{
 		this.cep = cep;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
 
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Endereco other = (Endereco) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Endereco [codigo=" + codigo + ", logradouro=" + logradouro
+				+ ", complemento=" + complemento + ", numero=" + numero
+				+ ", bairro=" + bairro + ", cidade=" + cidade + ", estado="
+				+ estado + ", cep=" + cep + "]";
+	}
+
 }

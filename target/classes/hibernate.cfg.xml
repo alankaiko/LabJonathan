@@ -32,10 +32,15 @@
         <property name="hbm2ddl.auto">update</property>
         	
         <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+	
 		
-		<mapping class="br.com.laboratorio.modelo.Paciente"/>
 		<mapping class="br.com.laboratorio.modelo.Contato"/>
-		<mapping class="br.com.laboratorio.modelo.Endereco"/>
+      	<mapping class="br.com.laboratorio.modelo.Convenio"/>
+      	<mapping class="br.com.laboratorio.modelo.Endereco"/>
+      	<mapping class="br.com.laboratorio.modelo.Funcionario"/>
+      	<mapping class="br.com.laboratorio.modelo.Paciente"/>
+      	<mapping class="br.com.laboratorio.modelo.RegistroCoren"/>
+      	<mapping class="br.com.laboratorio.modelo.Usuario"/>
     </session-factory>
 
 </hibernate-configuration>
