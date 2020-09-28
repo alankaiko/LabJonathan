@@ -30,6 +30,11 @@ public class Convenio implements Serializable {
 	private String observacoes;
 	private Contato contato;
 	private Endereco endereco;
+	
+	public Convenio() {
+		this.contato = new Contato();
+		this.endereco = new Endereco();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,8 +118,9 @@ public class Convenio implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Convenio [codigo=" + codigo + ", nome=" + nome + ", contato="
-				+ contato + ", endereco=" + endereco + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append(nome);
+		return builder.toString();
 	}
 
 }

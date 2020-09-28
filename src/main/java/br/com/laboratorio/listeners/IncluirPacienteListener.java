@@ -17,7 +17,6 @@ import javax.swing.KeyStroke;
 
 import br.com.laboratorio.atela.IncluirConvenioForm;
 import br.com.laboratorio.atela.IncluirPacienteForm;
-import br.com.laboratorio.modelo.Convenio;
 import br.com.laboratorio.modelo.Paciente;
 import br.com.laboratorio.service.PacienteService;
 import br.com.laboratorio.util.ConverteDadosUtil;
@@ -29,7 +28,6 @@ public class IncluirPacienteListener implements ActionListener{
 	private IncluirPacienteForm formulario;
 	private PacienteService service;
 	private Paciente paciente;
-	private Convenio convenio;
 	
 	
 	public IncluirPacienteListener(IncluirPacienteForm formulario) {
@@ -43,17 +41,10 @@ public class IncluirPacienteListener implements ActionListener{
 		LimitaCaracteres();
 	}
 	
-	public void IniciarObjetos(){
-		this.paciente = new Paciente();
-		this.convenio = new Convenio();
-	}
-	
-	
 	private void Salvar(){
 		PegarDados();
 		service.Salvar(paciente);
 	}
-	
 	
 	//Classe pega os botoes do formulario e atrela à esta classe controller aqui (propria classe ClienteActionListener)
 	private void AdicionarListener(){
@@ -61,11 +52,12 @@ public class IncluirPacienteListener implements ActionListener{
 		formulario.getBTCancelar().addActionListener(this);
 	}
 	
-	
-	
 	/*-----------------------------------------------------------------------------------------------------------------*/
 	/*-------------------CLASSES INTERNAS QUE CAPTURAM AS INFORMACOES E INSEREM NOS RESPECTIVOS OBJETOS ---------------*/
 	private void PegarDados(){
+		if(this.paciente == null)
+			this.paciente = new Paciente();
+		
 		paciente.setNome(this.formulario.getTNome().getText());
 		paciente.setCpf(this.formulario.getJCpf().getText().replaceAll("[_.-]", ""));
 		paciente.setRg(this.formulario.getTRg().getText());
@@ -89,9 +81,7 @@ public class IncluirPacienteListener implements ActionListener{
 	
 	/*-----------------------------------------------------------------------------------------------------------------*/
 	/*---------------------------------------CLASSES PARA EDICAO DOS OBJETOS-------------------------------------------*/
-	public void AlterandoObjetos(){
-		this.convenio = this.paciente.getConvenio();
-		
+	public void AlterandoObjetos(){		
 		this.formulario.getTCodigo().setText(String.valueOf(this.paciente.getCodigo()));
 		this.formulario.getTNome().setText(this.paciente.getNome());
 		this.formulario.getTRg().setText(this.paciente.getRg());
@@ -117,7 +107,12 @@ public class IncluirPacienteListener implements ActionListener{
 	//Classe que possui eventos dos botoes da TELA
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().equals(this.formulario.getBTGravar()) && ValidandoField()){
-			Salvar();
+			try {
+				Salvar();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 
 			this.formulario.dispose();
 		}else if(event.getSource().equals(this.formulario.getBTCancelar())){

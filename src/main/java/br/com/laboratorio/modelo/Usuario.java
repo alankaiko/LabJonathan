@@ -27,6 +27,10 @@ public class Usuario {
 	private Funcionario funcionario;
 	private String login;
 	private String senha;
+	
+	public Usuario() {
+		this.funcionario = new Funcionario();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -116,7 +116,6 @@ public class GerenciarPacienteListener implements ActionListener{
 	
 	private void ExecutaInclusao(){
 		IncluirPacienteForm inclui = new IncluirPacienteForm();
-		inclui.getListener().IniciarObjetos();
 		inclui.setLocationRelativeTo(this.gerenciamento.getTela());
 		inclui.setVisible(true);		
 		TabelaDeCliente();

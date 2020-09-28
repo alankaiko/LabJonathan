@@ -51,17 +51,15 @@ public class IncluirUsuarioListener implements ActionListener{
 		this.formulario.getTLogin().setText(this.usuario.getLogin());
 	}
 
-	public void IniciaObjetos(){
-		this.usuario = new Usuario();
-	}
-	
 	
 	private void FormToUsuario(){
+		if(this.usuario == null)
+			this.usuario = new Usuario();
+		
 		usuario.setFuncionario(this.funcionario);
 		usuario.setLogin(this.formulario.getTLogin().getText());
 		usuario.setSenha(this.formulario.getTSenha().getText());
 	}
-	
 	
 	
 	@Override

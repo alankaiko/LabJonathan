@@ -19,7 +19,6 @@ import br.com.laboratorio.util.ValidaCampos;
 
 
 public class IncluirFuncionarioListener implements ActionListener{
-
 	private IncluirFuncionariosForm formulario;
 	private FuncionarioService service;
 	private Funcionario funcionario;
@@ -33,11 +32,6 @@ public class IncluirFuncionarioListener implements ActionListener{
 		UsandoTAB();
 		LimitaCaracteres();
 	}
-	
-	public void IniciaObjeto(){
-		this.funcionario = new Funcionario();
-	}
-	
 	
 	private void Salvar(){
 		PegarDados();
@@ -54,6 +48,9 @@ public class IncluirFuncionarioListener implements ActionListener{
 	/*-----------------------------------------------------------------------------------------------------------------*/
 	/*-------------------CLASSES INTERNAS QUE CAPTURAM AS INFORMACOES E INSEREM NOS RESPECTIVOS OBJETOS ---------------*/
 	private void PegarDados(){
+		if(this.funcionario == null)
+			this.funcionario = new Funcionario();
+		
 		funcionario.setNome(this.formulario.getTNome().getText());
 		funcionario.setCpf(this.formulario.getJCpf().getText().replaceAll("[_.-]", ""));
 		funcionario.setRg(this.formulario.getTRg().getText());
@@ -109,7 +106,6 @@ public class IncluirFuncionarioListener implements ActionListener{
 		
 		if(event.getSource().equals(this.formulario.getBTGravar()) && Validando()){
 			Salvar();
-			
 			this.formulario.dispose();
 		}else if(event.getSource().equals(this.formulario.getBTCancelar())){
 			this.formulario.dispose();

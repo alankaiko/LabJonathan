@@ -1,499 +1,291 @@
 package br.com.laboratorio.atela;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import br.com.laboratorio.listeners.DetalhesPacienteListener;
+import br.com.laboratorio.listeners.IncluirPacienteListener;
+import br.com.laboratorio.modelo.EnumSexo;
 import br.com.laboratorio.util.ConverteDadosUtil;
+import br.com.laboratorio.util.ListasUtil;
 
 public class DetalhesPacienteDialog extends JDialog {
-	private JPanel panel = new JPanel();
 	private Container tela = getContentPane();
-	private JLabel LId, LNome, LCpf, LRg, LDataNasc, LDataCad, LObservacao;
-	private JLabel LIndentif, LEndereco, LLogradouro, LComplemento;
-	private JLabel LNumero, LBairro, LCidade, LCep, LContato, LEmail, LCelular, LTelefone, LEstado, LConvenio, TConvenio;
-	private JLabel TId, TNome, TCpf, TDataCadastro, TRg, TDataNasc, TObservacao, TLogradouro, TComplemento, TNumero;
-	private JLabel TBairro, TCidade, TComboEstado, TCep, TEmail, TTelefone, TCelular;
+	private JLabel TCodigo, TNome, TRg, TTelefone, TEmail;
+	private JLabel TCidade, TBairro, TNumero, TLogradouro, TComplemento;
+	private JLabel LCodigo, LNome, LDatacadastro, LCpf, LRg, LDatanasc, LSexo, LTelefone, LEmail, LObservacoes;
+	private JLabel LUf, LCidade, LNumero, LBairro, LLogradouro, LComplemento, LReferencia, LCep, LConvenio, LAdicionaConvenio;
+	private JTextArea TObservacao, TReferencia;
 	private JFormattedTextField JCpf, JDataNasc, JDataCadastro, JCep;
-	private JButton cancelar;
-	private JSeparator separa, separator;
+	private JButton BTCancelar;
+	private JComboBox<String> ComboEstado, ComboSexo;
+	private JTabbedPane tabbedPane;
+	private JLayeredPane layeredPane, layeredPane_2;
+	private JScrollPane scrollPane_1, scrollPane;
 	private DetalhesPacienteListener listener;
+	private JComboBox<String> ComboConvenio;
+
+	public static void main(String[] args) {
+		try {
+			IncluirPacienteForm dialog = new IncluirPacienteForm();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public DetalhesPacienteDialog() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Gestor\\Desktop\\nuclear.png"));
+		setTitle("Paciente");
+		setBounds(100, 100, 699, 339);
+		tela.setLayout(null);
 		setModal(true);
-		setBounds(100, 100, 580, 460);
-		tela.setLayout(new BorderLayout());
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		tela.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-
-		OrganizarComponentes();
-		AdicionaNaTela();
-		listener = new DetalhesPacienteListener(this);
+		setResizable(false);
+		
+		this.MontarComponentes();
+		this.listener = new DetalhesPacienteListener(this);
 	}
 
-	private void OrganizarComponentes() {
-		LIndentif = new JLabel();
-		LIndentif.setText("DADOS PESSOAIS");
-		LIndentif.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		LIndentif.setBounds(10, 11, 130, 14);
+	public void MontarComponentes() {
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 11, 665, 237);
+		tela.add(tabbedPane);
 
-		LId = new JLabel();
-		LId.setText("Código");
-		LId.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LId.setHorizontalAlignment(SwingConstants.RIGHT);
-		LId.setBounds(42, 33, 59, 14);
+		layeredPane = new JLayeredPane();
+		tabbedPane.addTab("Dados Pessoais", null, layeredPane, null);
 
-		TId = new JLabel();
-		TId.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		TId.setBounds(111, 30, 39, 20);
+		LCodigo = new JLabel("C\u00F3digo");
+		LCodigo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LCodigo.setBounds(13, 42, 70, 14);
+		layeredPane.add(LCodigo);
 
-		LCpf = new JLabel();
-		LCpf.setText("CPF:");
-		LCpf.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LCpf.setHorizontalAlignment(SwingConstants.RIGHT);
-		LCpf.setBounds(64, 58, 37, 14);
+		TCodigo = new JLabel();
+		TCodigo.setBounds(13, 56, 76, 20);
+		layeredPane.add(TCodigo);
 
-		TCpf = new JLabel();
-		TCpf.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		TCpf.setBounds(111, 55, 113, 20);
-
-		LNome = new JLabel();
-		LNome.setText("Nome:");
-		LNome.setHorizontalAlignment(SwingConstants.RIGHT);
-		LNome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LNome.setBounds(52, 85, 49, 14);
+		LNome = new JLabel("Nome");
+		LNome.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LNome.setBounds(90, 42, 46, 14);
+		layeredPane.add(LNome);
 
 		TNome = new JLabel();
-		TNome.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		TNome.setBounds(111, 82, 337, 20);
+		TNome.setBounds(90, 56, 304, 20);
+		layeredPane.add(TNome);
 
-		LRg = new JLabel();
-		LRg.setText("RG:");
-		LRg.setHorizontalAlignment(SwingConstants.RIGHT);
-		LRg.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LRg.setBounds(411, 58, 37, 14);
+		LDatacadastro = new JLabel("Data Cadastro");
+		LDatacadastro.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LDatacadastro.setBounds(13, 14, 86, 14);
+		layeredPane.add(LDatacadastro);
+
+		JDataCadastro= new JFormattedTextField(ConverteDadosUtil.FormataData());
+		JDataCadastro.setEditable(false);
+		JDataCadastro.setText(ConverteDadosUtil.RetornaDataAtual());
+		JDataCadastro.setBounds(98, 11, 86, 20);
+		layeredPane.add(JDataCadastro);
+
+		LCpf = new JLabel("CPF");
+		LCpf.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LCpf.setBounds(395, 42, 51, 14);
+		layeredPane.add(LCpf);
+
+		JCpf= new JFormattedTextField(ConverteDadosUtil.FormataCPF());
+		JCpf.setBounds(395, 56, 130, 20);
+		layeredPane.add(JCpf);
+
+		LRg = new JLabel("RG");
+		LRg.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LRg.setBounds(526, 42, 46, 14);
+		layeredPane.add(LRg);
 
 		TRg = new JLabel();
-		TRg.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		TRg.setBounds(458, 55, 113, 20);
+		TRg.setBounds(526, 56, 130, 20);
+		layeredPane.add(TRg);
 
-		LEndereco = new JLabel();
-		LEndereco.setText("ENDEREÇO");
-		LEndereco.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		LEndereco.setBounds(10, 134, 130, 14);
+		LDatanasc = new JLabel("Data Nasc.");
+		LDatanasc.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LDatanasc.setBounds(13, 83, 70, 14);
+		layeredPane.add(LDatanasc);
 
-		LLogradouro = new JLabel();
-		LLogradouro.setText("Logradouro:");
-		LLogradouro.setHorizontalAlignment(SwingConstants.RIGHT);
-		LLogradouro.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LLogradouro.setBounds(10, 160, 91, 14);
+		JDataNasc= new JFormattedTextField(ConverteDadosUtil.FormataData());
+		JDataNasc.setBounds(13, 97, 76, 20);
+		layeredPane.add(JDataNasc);
 
-		TLogradouro = new JLabel();
-		TLogradouro.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TLogradouro.setBounds(111, 157, 340, 20);
+		LSexo = new JLabel("Sexo");
+		LSexo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LSexo.setBounds(90, 83, 46, 14);
+		layeredPane.add(LSexo);
 
-		LComplemento = new JLabel();
-		LComplemento.setText("Complemento:");
-		LComplemento.setHorizontalAlignment(SwingConstants.RIGHT);
-		LComplemento.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LComplemento.setBounds(10, 186, 91, 14);
+		ComboSexo = new JComboBox<String>();
+		ComboSexo.setModel(new DefaultComboBoxModel(EnumSexo.values()));
+		ComboSexo.setBounds(90, 97, 86, 20);
+		layeredPane.add(ComboSexo);
 
-		TComplemento = new JLabel();
-		TComplemento.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TComplemento.setBounds(111, 183, 340, 20);
-
-		LNumero = new JLabel();
-		LNumero.setText("Número");
-		LNumero.setHorizontalAlignment(SwingConstants.RIGHT);
-		LNumero.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LNumero.setBounds(20, 211, 81, 14);
-
-		TNumero = new JLabel();
-		TNumero.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TNumero.setBounds(111, 208, 59, 20);
-
-		LCidade = new JLabel();
-		LCidade.setText("Cidade:");
-		LCidade.setHorizontalAlignment(SwingConstants.RIGHT);
-		LCidade.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LCidade.setBounds(20, 237, 81, 14);
-
-		TCidade = new JLabel();
-		TCidade.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TCidade.setBounds(111, 234, 198, 20);
-
-		LBairro = new JLabel();
-		LBairro.setText("Bairro:");
-		LBairro.setHorizontalAlignment(SwingConstants.RIGHT);
-		LBairro.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LBairro.setBounds(332, 211, 71, 14);
-
-		TBairro = new JLabel();
-		TBairro.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TBairro.setBounds(413, 208, 141, 20);
-
-		LEstado = new JLabel();
-		LEstado.setText("UF:");
-		LEstado.setHorizontalAlignment(SwingConstants.RIGHT);
-		LEstado.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LEstado.setBounds(364, 237, 39, 14);
-
-		TComboEstado = new JLabel();
-		TComboEstado.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TComboEstado.setBounds(413, 234, 141, 20);
-
-		LCep = new JLabel();
-		LCep.setText("CEP:");
-		LCep.setHorizontalAlignment(SwingConstants.RIGHT);
-		LCep.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LCep.setBounds(21, 260, 81, 14);
-
-		TCep = new JLabel();
-		TCep.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TCep.setBounds(112, 257, 81, 20);
-
-		LContato = new JLabel();
-		LContato.setText("CONTATO");
-		LContato.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		LContato.setBounds(10, 292, 130, 14);
-
-		LEmail = new JLabel();
-		LEmail.setText("E-mail:");
-		LEmail.setHorizontalAlignment(SwingConstants.RIGHT);
-		LEmail.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LEmail.setBounds(20, 312, 81, 14);
-
-		TEmail = new JLabel();
-		TEmail.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TEmail.setBounds(111, 309, 292, 20);
-
-		LCelular = new JLabel();
-		LCelular.setText("Celular:");
-		LCelular.setHorizontalAlignment(SwingConstants.RIGHT);
-		LCelular.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LCelular.setBounds(20, 340, 81, 14);
-
-		TCelular = new JLabel();
-		TCelular.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TCelular.setBounds(111, 337, 113, 20);
+		LTelefone = new JLabel("Telefone");
+		LTelefone.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LTelefone.setBounds(178, 83, 86, 14);
+		layeredPane.add(LTelefone);
 
 		TTelefone = new JLabel();
-		TTelefone.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TTelefone.setBounds(411, 337, 113, 20);
+		TTelefone.setBounds(178, 97, 106, 20);
+		layeredPane.add(TTelefone);
 
-		LTelefone = new JLabel();
-		LTelefone.setText("Telefone:");
-		LTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
-		LTelefone.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LTelefone.setBounds(322, 340, 81, 14);
+		LEmail = new JLabel("E-mail");
+		LEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LEmail.setBounds(285, 83, 46, 14);
+		layeredPane.add(LEmail);
 
-		TDataCadastro = new JLabel();
-		TDataCadastro.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		TDataCadastro.setBounds(458, 30, 165, 20);
+		TEmail = new JLabel();
+		TEmail.setBounds(285, 97, 371, 20);
+		layeredPane.add(TEmail);
 
-		LDataCad = new JLabel();
-		LDataCad.setText("Data Cadastro");
-		LDataCad.setHorizontalAlignment(SwingConstants.RIGHT);
-		LDataCad.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LDataCad.setBounds(364, 33, 84, 14);
+		LObservacoes = new JLabel("Observa\u00E7\u00F5es");
+		LObservacoes.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LObservacoes.setBounds(13, 121, 86, 14);
+		layeredPane.add(LObservacoes);
 
-		LDataNasc = new JLabel();
-		LDataNasc.setText("Data Nasc.:");
-		LDataNasc.setHorizontalAlignment(SwingConstants.RIGHT);
-		LDataNasc.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LDataNasc.setBounds(20, 107, 81, 14);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(13, 136, 643, 62);
+		layeredPane.add(scrollPane);
 
-		TDataNasc = new JLabel();
-		TDataNasc.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		TDataNasc.setBounds(111, 104, 113, 20);
+		TObservacao = new JTextArea();
+		scrollPane.setViewportView(TObservacao);
+		
+		LConvenio = new JLabel("Conv\u00EAnio");
+		LConvenio.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LConvenio.setBounds(351, 14, 88, 14);
+		layeredPane.add(LConvenio);
+		
+		LAdicionaConvenio = new JLabel();
+		LAdicionaConvenio.setText("Adicionar?");
+		LAdicionaConvenio.setForeground(Color.BLUE);
+		LAdicionaConvenio.setFont(new Font("Palatino Linotype", Font.PLAIN, 10));
+		LAdicionaConvenio.setBounds(594, 16, 62, 14);
+		layeredPane.add(LAdicionaConvenio);
+		
+		ComboConvenio = new JComboBox<String>();
+		ComboConvenio.setBounds(409, 11, 175, 20);
+		layeredPane.add(ComboConvenio);
+		
+		layeredPane_2 = new JLayeredPane();
+		tabbedPane.addTab("Endere\u00E7os", null, layeredPane_2, null);
 
-		TConvenio = new JLabel();
-		TConvenio.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		TConvenio.setBounds(423, 104, 177, 20);
+		LCep = new JLabel("CEP");
+		LCep.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LCep.setBounds(10, 11, 46, 14);
+		layeredPane_2.add(LCep);
 
-		LConvenio = new JLabel();
-		LConvenio.setText("Plano");
-		LConvenio.setHorizontalAlignment(SwingConstants.RIGHT);
-		LConvenio.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LConvenio.setBounds(332, 107, 81, 14);
+		JCep= new JFormattedTextField(ConverteDadosUtil.FormataCPF());
+		JCep.setBounds(10, 26, 106, 20);
+		layeredPane_2.add(JCep);
+	
+		LUf = new JLabel("UF");
+		LUf.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LUf.setBounds(119, 11, 21, 14);
+		layeredPane_2.add(LUf);
 
-		LObservacao = new JLabel();
-		LObservacao.setText("Observação:");
-		LObservacao.setHorizontalAlignment(SwingConstants.RIGHT);
-		LObservacao.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		LObservacao.setBounds(20, 365, 81, 14);
+		ComboEstado = new JComboBox<String>();
+		ComboEstado.setModel(new DefaultComboBoxModel(new Vector(ListasUtil.Estados())));
+		ComboEstado.setBounds(119, 26, 62, 20);
+		layeredPane_2.add(ComboEstado);
 
-		TObservacao = new JLabel();
-		TObservacao.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		TObservacao.setBounds(105, 362, 420, 20);
+		LCidade = new JLabel("Cidade");
+		LCidade.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LCidade.setBounds(185, 11, 46, 14);
+		layeredPane_2.add(LCidade);
 
-		JCpf = new JFormattedTextField(ConverteDadosUtil.FormataCPF());
-		JDataNasc = new JFormattedTextField(ConverteDadosUtil.FormataData());
-		JDataCadastro = new JFormattedTextField(ConverteDadosUtil.FormataData());
-		JCep = new JFormattedTextField(ConverteDadosUtil.FormataCep());
-		separa = new JSeparator();
-		separator = new JSeparator();
+		TCidade = new JLabel();
+		TCidade.setBounds(185, 26, 232, 20);
+		layeredPane_2.add(TCidade);
 
-		cancelar = new JButton();
-		cancelar.setText("Voltar");
-		cancelar.setBounds(447, 388, 89, 23);
+		LBairro = new JLabel("Bairro");
+		LBairro.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LBairro.setBounds(420, 11, 46, 14);
+		layeredPane_2.add(LBairro);
 
+		TBairro = new JLabel();
+		TBairro.setBounds(420, 26, 235, 20);
+		layeredPane_2.add(TBairro);
+
+		LNumero = new JLabel("N\u00FAmero");
+		LNumero.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LNumero.setBounds(10, 52, 106, 14);
+		layeredPane_2.add(LNumero);
+
+		TNumero = new JLabel();
+		TNumero.setBounds(10, 70, 106, 20);
+		layeredPane_2.add(TNumero);
+
+		LLogradouro = new JLabel("Logradouro");
+		LLogradouro.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LLogradouro.setBounds(119, 52, 85, 14);
+		layeredPane_2.add(LLogradouro);
+
+		TLogradouro = new JLabel();
+		TLogradouro.setBounds(119, 70, 298, 20);
+		layeredPane_2.add(TLogradouro);
+
+		LComplemento = new JLabel("Complemento");
+		LComplemento.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LComplemento.setBounds(420, 52, 92, 14);
+		layeredPane_2.add(LComplemento);
+
+		TComplemento = new JLabel();
+		TComplemento.setBounds(420, 70, 235, 20);
+		layeredPane_2.add(TComplemento);
+
+		LReferencia = new JLabel("Referencia");
+		LReferencia.setFont(new Font("Tahoma", Font.BOLD, 11));
+		LReferencia.setBounds(10, 95, 106, 14);
+		layeredPane_2.add(LReferencia);
+
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 110, 645, 88);
+		layeredPane_2.add(scrollPane_1);
+
+		TReferencia = new JTextArea();
+		scrollPane_1.setViewportView(TReferencia);
+
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setBounds(10, 259, 665, 31);
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			tela.add(buttonPane);
+			{
+				BTCancelar = new JButton("Cancel");
+				BTCancelar.setActionCommand("Cancel");
+				buttonPane.add(BTCancelar);
+			}
+		}
 	}
 
-	private void AdicionaNaTela() {
-		panel.add(LIndentif);
-		panel.add(LId);
-		panel.add(TId);
-		panel.add(LCpf);
-		panel.add(TCpf);
-		panel.add(LNome);
-		panel.add(TNome);
-		panel.add(LRg);
-		panel.add(TRg);
-		panel.add(LEndereco);
-		panel.add(LLogradouro);
-		panel.add(TLogradouro);
-		panel.add(LComplemento);
-		panel.add(TComplemento);
-		panel.add(LNumero);
-		panel.add(TNumero);
-		panel.add(LCidade);
-		panel.add(TCidade);
-		panel.add(LBairro);
-		panel.add(TBairro);
-		panel.add(LEstado);
-		panel.add(TComboEstado);
-		panel.add(LCep);
-		panel.add(TCep);
-		panel.add(LContato);
-		panel.add(LEmail);
-		panel.add(TEmail);
-		panel.add(LCelular);
-		panel.add(TCelular);
-		panel.add(TTelefone);
-		panel.add(LTelefone);
-		panel.add(cancelar);
-		panel.add(TDataCadastro);
-		panel.add(LDataCad);
-		panel.add(LDataNasc);
-		panel.add(TDataNasc);
-		panel.add(TConvenio);
-		panel.add(LConvenio);
-		panel.add(separa);
-		panel.add(separator);
-		panel.add(LObservacao);
-		panel.add(TObservacao);
+	public JLabel getTCodigo() {
+		return TCodigo;
 	}
 
-	public JPanel getPanel() {
-		return panel;
-	}
-
-	public void setPanel(JPanel panel) {
-		this.panel = panel;
-	}
-
-	public Container getTela() {
-		return tela;
-	}
-
-	public void setTela(Container tela) {
-		this.tela = tela;
-	}
-
-	public JLabel getLId() {
-		return LId;
-	}
-
-	public void setLId(JLabel lId) {
-		LId = lId;
-	}
-
-	public JLabel getLNome() {
-		return LNome;
-	}
-
-	public void setLNome(JLabel lNome) {
-		LNome = lNome;
-	}
-
-	public JLabel getLCpf() {
-		return LCpf;
-	}
-
-	public void setLCpf(JLabel lCpf) {
-		LCpf = lCpf;
-	}
-
-	public JLabel getLRg() {
-		return LRg;
-	}
-
-	public void setLRg(JLabel lRg) {
-		LRg = lRg;
-	}
-
-	public JLabel getLDataNasc() {
-		return LDataNasc;
-	}
-
-	public void setLDataNasc(JLabel lDataNasc) {
-		LDataNasc = lDataNasc;
-	}
-
-	public JLabel getLDataCad() {
-		return LDataCad;
-	}
-
-	public void setLDataCad(JLabel lDataCad) {
-		LDataCad = lDataCad;
-	}
-
-	public JLabel getLObservacao() {
-		return LObservacao;
-	}
-
-	public void setLObservacao(JLabel lObservacao) {
-		LObservacao = lObservacao;
-	}
-
-	public JLabel getLIndentif() {
-		return LIndentif;
-	}
-
-	public void setLIndentif(JLabel lIndentif) {
-		LIndentif = lIndentif;
-	}
-
-	public JLabel getLEndereco() {
-		return LEndereco;
-	}
-
-	public void setLEndereco(JLabel lEndereco) {
-		LEndereco = lEndereco;
-	}
-
-	public JLabel getLLogradouro() {
-		return LLogradouro;
-	}
-
-	public void setLLogradouro(JLabel lLogradouro) {
-		LLogradouro = lLogradouro;
-	}
-
-	public JLabel getLComplemento() {
-		return LComplemento;
-	}
-
-	public void setLComplemento(JLabel lComplemento) {
-		LComplemento = lComplemento;
-	}
-
-	public JLabel getLNumero() {
-		return LNumero;
-	}
-
-	public void setLNumero(JLabel lNumero) {
-		LNumero = lNumero;
-	}
-
-	public JLabel getLBairro() {
-		return LBairro;
-	}
-
-	public void setLBairro(JLabel lBairro) {
-		LBairro = lBairro;
-	}
-
-	public JLabel getLCidade() {
-		return LCidade;
-	}
-
-	public void setLCidade(JLabel lCidade) {
-		LCidade = lCidade;
-	}
-
-	public JLabel getLCep() {
-		return LCep;
-	}
-
-	public void setLCep(JLabel lCep) {
-		LCep = lCep;
-	}
-
-	public JLabel getLContato() {
-		return LContato;
-	}
-
-	public void setLContato(JLabel lContato) {
-		LContato = lContato;
-	}
-
-	public JLabel getLEmail() {
-		return LEmail;
-	}
-
-	public void setLEmail(JLabel lEmail) {
-		LEmail = lEmail;
-	}
-
-	public JLabel getLCelular() {
-		return LCelular;
-	}
-
-	public void setLCelular(JLabel lCelular) {
-		LCelular = lCelular;
-	}
-
-	public JLabel getLTelefone() {
-		return LTelefone;
-	}
-
-	public void setLTelefone(JLabel lTelefone) {
-		LTelefone = lTelefone;
-	}
-
-	public JLabel getLEstado() {
-		return LEstado;
-	}
-
-	public void setLEstado(JLabel lEstado) {
-		LEstado = lEstado;
-	}
-
-	public JLabel getLConvenio() {
-		return LConvenio;
-	}
-
-	public void setLConvenio(JLabel lConvenio) {
-		LConvenio = lConvenio;
-	}
-
-	public JLabel getTConvenio() {
-		return TConvenio;
-	}
-
-	public void setTConvenio(JLabel tConvenio) {
-		TConvenio = tConvenio;
-	}
-
-	public JLabel getTId() {
-		return TId;
-	}
-
-	public void setTId(JLabel tId) {
-		TId = tId;
+	public void setTCodigo(JLabel tCodigo) {
+		TCodigo = tCodigo;
 	}
 
 	public JLabel getTNome() {
@@ -504,22 +296,6 @@ public class DetalhesPacienteDialog extends JDialog {
 		TNome = tNome;
 	}
 
-	public JLabel getTCpf() {
-		return TCpf;
-	}
-
-	public void setTCpf(JLabel tCpf) {
-		TCpf = tCpf;
-	}
-
-	public JLabel getTDataCadastro() {
-		return TDataCadastro;
-	}
-
-	public void setTDataCadastro(JLabel tDataCadastro) {
-		TDataCadastro = tDataCadastro;
-	}
-
 	public JLabel getTRg() {
 		return TRg;
 	}
@@ -528,20 +304,44 @@ public class DetalhesPacienteDialog extends JDialog {
 		TRg = tRg;
 	}
 
-	public JLabel getTDataNasc() {
-		return TDataNasc;
+	public JLabel getTTelefone() {
+		return TTelefone;
 	}
 
-	public void setTDataNasc(JLabel tDataNasc) {
-		TDataNasc = tDataNasc;
+	public void setTTelefone(JLabel tTelefone) {
+		TTelefone = tTelefone;
 	}
 
-	public JLabel getTObservacao() {
-		return TObservacao;
+	public JLabel getTEmail() {
+		return TEmail;
 	}
 
-	public void setTObservacao(JLabel tObservacao) {
-		TObservacao = tObservacao;
+	public void setTEmail(JLabel tEmail) {
+		TEmail = tEmail;
+	}
+
+	public JLabel getTCidade() {
+		return TCidade;
+	}
+
+	public void setTCidade(JLabel tCidade) {
+		TCidade = tCidade;
+	}
+
+	public JLabel getTBairro() {
+		return TBairro;
+	}
+
+	public void setTBairro(JLabel tBairro) {
+		TBairro = tBairro;
+	}
+
+	public JLabel getTNumero() {
+		return TNumero;
+	}
+
+	public void setTNumero(JLabel tNumero) {
+		TNumero = tNumero;
 	}
 
 	public JLabel getTLogradouro() {
@@ -560,70 +360,23 @@ public class DetalhesPacienteDialog extends JDialog {
 		TComplemento = tComplemento;
 	}
 
-	public JLabel getTNumero() {
-		return TNumero;
+	public JTextArea getTObservacao() {
+		return TObservacao;
 	}
 
-	public void setTNumero(JLabel tNumero) {
-		TNumero = tNumero;
+	public void setTObservacao(JTextArea tObservacao) {
+		TObservacao = tObservacao;
 	}
 
-	public JLabel getTBairro() {
-		return TBairro;
+	public JTextArea getTReferencia() {
+		return TReferencia;
 	}
 
-	public void setTBairro(JLabel tBairro) {
-		TBairro = tBairro;
+	public void setTReferencia(JTextArea tReferencia) {
+		TReferencia = tReferencia;
 	}
 
-	public JLabel getTCidade() {
-		return TCidade;
-	}
-
-	public void setTCidade(JLabel tCidade) {
-		TCidade = tCidade;
-	}
-
-	public JLabel getTComboEstado() {
-		return TComboEstado;
-	}
-
-	public void setTComboEstado(JLabel tComboEstado) {
-		TComboEstado = tComboEstado;
-	}
-
-	public JLabel getTCep() {
-		return TCep;
-	}
-
-	public void setTCep(JLabel tCep) {
-		TCep = tCep;
-	}
-
-	public JLabel getTEmail() {
-		return TEmail;
-	}
-
-	public void setTEmail(JLabel tEmail) {
-		TEmail = tEmail;
-	}
-
-	public JLabel getTTelefone() {
-		return TTelefone;
-	}
-
-	public void setTTelefone(JLabel tTelefone) {
-		TTelefone = tTelefone;
-	}
-
-	public JLabel getTCelular() {
-		return TCelular;
-	}
-
-	public void setTCelular(JLabel tCelular) {
-		TCelular = tCelular;
-	}
-
+	
 	public JFormattedTextField getJCpf() {
 		return JCpf;
 	}
@@ -656,28 +409,12 @@ public class DetalhesPacienteDialog extends JDialog {
 		JCep = jCep;
 	}
 
-	public JButton getCancelar() {
-		return cancelar;
+	public JButton getBTCancelar() {
+		return BTCancelar;
 	}
 
-	public void setCancelar(JButton cancelar) {
-		this.cancelar = cancelar;
-	}
-
-	public JSeparator getSepara() {
-		return separa;
-	}
-
-	public void setSepara(JSeparator separa) {
-		this.separa = separa;
-	}
-
-	public JSeparator getSeparator() {
-		return separator;
-	}
-
-	public void setSeparator(JSeparator separator) {
-		this.separator = separator;
+	public void setBTCancelar(JButton bTCancelar) {
+		BTCancelar = bTCancelar;
 	}
 
 	public DetalhesPacienteListener getListener() {
@@ -688,4 +425,12 @@ public class DetalhesPacienteDialog extends JDialog {
 		this.listener = listener;
 	}
 
+	public JComboBox<String> getComboEstado() {
+		return ComboEstado;
+	}
+	
+	public void setComboEstado(JComboBox<String> comboEstado) {
+		ComboEstado = comboEstado;
+	}
+	
 }

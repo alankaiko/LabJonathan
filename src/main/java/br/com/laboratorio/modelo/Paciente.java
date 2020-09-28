@@ -39,15 +39,14 @@ public class Paciente implements Serializable {
 	private Contato contato;
 	private Endereco endereco;
 	private String observacao;
+	
+	@ManyToOne(fetch= FetchType.LAZY, cascade= CascadeType.ALL)
+	@JoinColumn(name = "tbl_convenio_id", referencedColumnName = "conv_id")
 	private Convenio convenio;
 
 	public Paciente() {
-		nome = new String();
-		cpf = new String();
-		rg = new String();
 		contato = new Contato();
 		endereco = new Endereco();
-		observacao = new String();
 		convenio = new Convenio();
 	}
 
@@ -61,7 +60,7 @@ public class Paciente implements Serializable {
 		this.codigo = codigo;
 	}
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = true, unique = true)
 	public String getNome() {
 		return nome;
 	}
@@ -105,8 +104,6 @@ public class Paciente implements Serializable {
 		this.dataCad = dataCad;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "tbl_convenio_id", referencedColumnName = "codigo")
 	public Convenio getConvenio() {
 		return convenio;
 	}

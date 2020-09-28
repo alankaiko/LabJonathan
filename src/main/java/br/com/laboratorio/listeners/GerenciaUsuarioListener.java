@@ -110,7 +110,6 @@ public class GerenciaUsuarioListener implements ActionListener{
 	
 	private void ExecutaInclusao(){
 		IncluirUsuarioForm inclui = new IncluirUsuarioForm();
-		inclui.getListener().IniciaObjetos();
 		inclui.setLocationRelativeTo(this.formulario.getTela());
 		inclui.setVisible(true);		
 		TabelaDeUsuarios();

@@ -112,7 +112,6 @@ public class GerenciarFuncionarioListener implements ActionListener{
 	
 	private void ExecutaInclusao(){
 		IncluirFuncionariosForm inclui = new IncluirFuncionariosForm();
-		inclui.getListener().IniciaObjeto();
 		inclui.setLocationRelativeTo(this.gerenciamento.getTela());
 		inclui.setVisible(true);	
 		TabelaDeFuncionarios();

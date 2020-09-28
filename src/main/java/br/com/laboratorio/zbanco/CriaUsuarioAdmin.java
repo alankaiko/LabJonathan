@@ -1,4 +1,4 @@
-package br.com.laboratorio.banco;
+package br.com.laboratorio.zbanco;
 
 import br.com.laboratorio.modelo.Contato;
 import br.com.laboratorio.modelo.Endereco;

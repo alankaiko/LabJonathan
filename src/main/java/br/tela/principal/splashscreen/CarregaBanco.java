@@ -4,9 +4,9 @@ import java.io.File;
 
 import javax.swing.SwingWorker;
 
-import br.com.laboratorio.banco.CriaUsuarioAdmin;
 import br.com.laboratorio.util.HibernateUtil;
 import br.com.laboratorio.util.ValidaCampos;
+import br.com.laboratorio.zbanco.CriaUsuarioAdmin;
 import br.tela.principal.tela.TelaLogin;
 
 public class CarregaBanco extends SwingWorker<Void, Integer> {

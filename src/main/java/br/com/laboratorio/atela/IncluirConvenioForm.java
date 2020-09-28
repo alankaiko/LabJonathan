@@ -1,5 +1,6 @@
 package br.com.laboratorio.atela;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -20,8 +21,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import br.com.laboratorio.listeners.IncluirConvenioListener;
+import br.com.laboratorio.listeners.IncluirFuncionarioListener;
 import br.com.laboratorio.util.ConverteDadosUtil;
 import br.com.laboratorio.util.ListasUtil;
 
@@ -46,8 +49,10 @@ public class IncluirConvenioForm extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Gestor\\Desktop\\nuclear.png"));
 		setTitle("Convênio");
 		setBounds(100, 100, 555, 340);
-		getContentPane().setLayout(null);
-
+		getContentPane().setLayout(null);	
+		setModal(true);
+		setResizable(false);
+		
 		this.MontarComponentes();
 		this.listener = new IncluirConvenioListener(this);
 	}
@@ -74,6 +79,7 @@ public class IncluirConvenioForm extends JDialog {
 		TCodigo = new JTextField();
 		TCodigo.setBounds(10, 26, 103, 20);
 		layer1.add(TCodigo);
+		TCodigo.setEditable(false);
 		TCodigo.setColumns(10);
 
 		LConvenio = new JLabel("Conv\u00EAnio");

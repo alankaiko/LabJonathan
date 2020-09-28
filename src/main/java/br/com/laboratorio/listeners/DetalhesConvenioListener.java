@@ -23,29 +23,19 @@ public class DetalhesConvenioListener implements ActionListener{
 		TeclaEsc();
 	}
 
-	
 	public void AdicionarListener(){
-		this.formulario.getCancelar().addActionListener(this);
+		this.formulario.getBTCancelar().addActionListener(this);
 	}
-	
-	
-	
 	public void Detalhar(){
-		this.formulario.getTId().setText(String.valueOf(this.convenio.getCodigo()));
+		this.formulario.getTCodigo().setText(String.valueOf(this.convenio.getCodigo()));
 		this.formulario.getTConvenio().setText(this.convenio.getNome());
 	}
-	
-	
-	
-	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getSource().equals(this.formulario.getCancelar())){
+		if(event.getSource().equals(this.formulario.getBTCancelar())){
 			this.formulario.dispose();
 		}
 	}
-	
-	
 	
 	public void TeclaEsc(){
         JRootPane meurootpane = this.formulario.getRootPane();  

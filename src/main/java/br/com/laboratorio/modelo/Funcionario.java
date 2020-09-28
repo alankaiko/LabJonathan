@@ -34,9 +34,6 @@ public class Funcionario implements Serializable {
 	private RegistroCoren registroCoren;
 
 	public Funcionario() {
-		nome = new String();
-		cpf = new String();
-		rg = new String();
 		contato = new Contato();
 		endereco = new Endereco();
 		registroCoren = new RegistroCoren();

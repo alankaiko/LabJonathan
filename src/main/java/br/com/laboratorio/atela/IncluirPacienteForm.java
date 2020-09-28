@@ -56,7 +56,9 @@ public class IncluirPacienteForm extends JDialog {
 		setTitle("Paciente");
 		setBounds(100, 100, 699, 339);
 		tela.setLayout(null);
-
+		setModal(true);
+		setResizable(false);
+		
 		this.MontarComponentes();
 		this.listener = new IncluirPacienteListener(this);
 	}
@@ -276,8 +278,7 @@ public class IncluirPacienteForm extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			tela.add(buttonPane);
 			{
-				BTGravar = new JButton("Novo");
-				BTGravar.setActionCommand("OK");
+				BTGravar = new JButton("Gravar");
 				buttonPane.add(BTGravar);
 				getRootPane().setDefaultButton(BTGravar);
 			}

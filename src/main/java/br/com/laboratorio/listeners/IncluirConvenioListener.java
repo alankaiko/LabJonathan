@@ -47,7 +47,9 @@ public class IncluirConvenioListener implements ActionListener {
 
 	// Método que pega informacoes do cliente e joga dentro do objeto Cliente
 	private void FormToConvenio() {
-		convenio = new Convenio();
+		if(this.convenio == null)
+			convenio = new Convenio();
+		
 		convenio.setNome(this.formulario.getTConvenio().getText());
 		convenio.setAtivo(this.formulario.getLAtivo().isSelected());
 		convenio.setObservacoes(this.formulario.getTObservacoes().getText());

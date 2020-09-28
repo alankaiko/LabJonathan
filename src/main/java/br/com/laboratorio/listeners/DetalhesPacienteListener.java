@@ -27,63 +27,49 @@ public class DetalhesPacienteListener implements ActionListener{
 		UsandoTAB();
 		TeclaEsc();
 	}
-
 	
 	public void AdicionarListener(){
-		this.formulario.getCancelar().addActionListener(this);
+		this.formulario.getBTCancelar().addActionListener(this);
 	}
 	
-	
-	
 	public void Detalhar(){
-		this.formulario.getTId().setText(String.valueOf(this.paciente.getCodigo()));
+		this.formulario.getTCodigo().setText(String.valueOf(this.paciente.getCodigo()));
 		this.formulario.getTNome().setText(this.paciente.getNome());
 		this.formulario.getTRg().setText(this.paciente.getRg());
 		this.formulario.getJCpf().setText(this.paciente.getCpf());
-		this.formulario.getTCpf().setText(this.formulario.getJCpf().getText());
-		this.formulario.getTConvenio().setText(this.paciente.getConvenio().getNome());
 		this.formulario.getTObservacao().setText(this.paciente.getObservacao());
 		this.formulario.getJDataNasc().setText(ConverteDadosUtil.TransformandoEmString(this.paciente.getDataNasc()));
-		this.formulario.getTDataNasc().setText(this.formulario.getJDataNasc().getText());
 		this.formulario.getJDataCadastro().setText(ConverteDadosUtil.TransformandoEmString(this.paciente.getDataCad()));
-		this.formulario.getTDataCadastro().setText(this.formulario.getJDataCadastro().getText());
 		this.formulario.getTLogradouro().setText(this.paciente.getEndereco().getLogradouro());
 		this.formulario.getTComplemento().setText(this.paciente.getEndereco().getComplemento());
 		this.formulario.getTNumero().setText(String.valueOf(this.paciente.getEndereco().getNumero()));
 		this.formulario.getTBairro().setText(this.paciente.getEndereco().getBairro());
 		this.formulario.getTCidade().setText(this.paciente.getEndereco().getCidade());
-		this.formulario.getTComboEstado().setText(this.paciente.getEndereco().getEstado());
+		this.formulario.getComboEstado().setSelectedItem(this.paciente.getEndereco().getEstado());
 		this.formulario.getJCep().setText(this.paciente.getEndereco().getCep());
-		this.formulario.getTCep().setText(this.formulario.getJCep().getText());
 		this.formulario.getTEmail().setText(this.paciente.getContato().getEmail());
-		this.formulario.getTCelular().setText(this.paciente.getContato().getCelular());
+
 		this.formulario.getTTelefone().setText(this.paciente.getContato().getTelefone());
-		
 	}
-	
-	
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getSource().equals(this.formulario.getCancelar())){
+		if(event.getSource().equals(this.formulario.getBTCancelar())){
 			this.formulario.dispose();
 		}
 	}
 	
 
 	private void UsandoTAB(){
-		this.formulario.getRootPane().setDefaultButton(this.formulario.getCancelar());
-		this.formulario.getCancelar().addKeyListener(new KeyAdapter() {  
+		this.formulario.getRootPane().setDefaultButton(this.formulario.getBTCancelar());
+		this.formulario.getBTCancelar().addKeyListener(new KeyAdapter() {  
             public void keyPressed(KeyEvent e) {  
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
-                	formulario.getCancelar().doClick();  
+                	formulario.getBTCancelar().doClick();  
                 }  
             }  
         });
 	}
-	
-	
 	
 	@SuppressWarnings("serial")
 	public void TeclaEsc(){

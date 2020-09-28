@@ -108,8 +108,6 @@ public class BuscarFuncionarioListener implements ActionListener{
 			
 			int linha = this.formulario.getTable().getSelectedRow();
 			codigo = (Long) this.formulario.getTable().getValueAt(linha, 0);
-			int codigo = (int) this.formulario.getTable().getValueAt(linha, 0);
-			
 			
 			this.formulario.dispose();
 		}

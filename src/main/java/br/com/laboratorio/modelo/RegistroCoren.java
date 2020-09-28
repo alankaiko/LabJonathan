@@ -14,13 +14,6 @@ public class RegistroCoren {
 	private String inscricao;
 	private String uf;
 	
-	public RegistroCoren() {
-		coren = new String();
-		inscricao = new String();
-		uf = new String();
-	}
-	
-	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	public Long getCodigo() {

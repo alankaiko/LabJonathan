@@ -76,7 +76,7 @@ public class TelaPrincipalClassic extends JFrame {
 		cadastroPaciente = new JMenuItem("Gerenciar Pacientes");
 		menuCadastro.add(cadastroPaciente);
 
-		cadastroFuncionario = new JMenuItem("Gerenciar Profissional Executante");
+		cadastroFuncionario = new JMenuItem("Gerenciar Funcionários");
 		menuCadastro.add(cadastroFuncionario);
 
 		cadastroUsuario = new JMenuItem("Gerenciar Usuários");
